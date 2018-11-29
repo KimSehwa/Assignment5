@@ -26,14 +26,14 @@
 
 // {{{ bricks
 #define numBrickTypes 7
-// positions of the filled cells
+// positions of the filled cells         
 //  0  1  2  3
 //  4  5  6  7
 //  8  9 10 11
 // 12 13 14 15
 // [brickNr][rotation][cellNr]
 const unsigned char bricks[numBrickTypes][4][4] = {
-	{ { 1,  5,  9, 13}, { 8,  9, 10, 11}, { 1,  5,  9, 13}, { 8,  9, 10, 11}, }, // I
+	{ { 1,  5,  9, 13}, { 8,  9, 10, 11}, { 1,  5,  9, 13}, { 8,  9, 10, 11}, }, // I       //7개의 블록을 정의한다.
 	{ { 5,  6,  9, 10}, { 5,  6,  9, 10}, { 5,  6,  9, 10}, { 5,  6,  9, 10}, }, // O
 	{ { 9,  8,  5, 10}, { 9,  5, 10, 13}, { 9, 10, 13,  8}, { 9, 13,  8,  5}, }, // T
 	{ { 9, 10, 12, 13}, { 5,  9, 10, 14}, { 9, 10, 12, 13}, { 5,  9, 10, 14}, }, // S
@@ -43,8 +43,8 @@ const unsigned char bricks[numBrickTypes][4][4] = {
 };
 // }}}
 
-static void dieIfOutOfMemory(void *pointer) { // {{{
-	if (pointer == NULL) {
+static void Excess_Memory(void *pointer) { // {{{
+	if (pointer == NULL){      //pointer에 값이 NULL일 경우
 		printf("Error: Out of memory\n");
 		exit(1);
 	}
@@ -52,23 +52,23 @@ static void dieIfOutOfMemory(void *pointer) { // {{{
 
 static void nextBrick(TetrisGame *game) { // {{{
 	game->brick = game->nextBrick;
-	game->brick.x = game->width/2 - 2;
-	game->brick.y = 0;
-	game->nextBrick.type = rand() % numBrickTypes;
-	game->nextBrick.rotation = rand() % 4;
+	game->brick.x = game->width/2 - 2;             //x값의 초기값을 지정.                        //초기위치
+	game->brick.y = 0;                       //y값의 초기위치를 지정.
+	game->nextBrick.type = rand() % numBrickTypes;     
+	game->nextBrick.rotation = rand() % 4;      
 	game->nextBrick.color = game->brick.color % 7 + 1; // (color-1 + 1) % 7 + 1, range is 1..7
-	game->nextBrick.x = 0;
-	game->nextBrick.y = 0;
+	game->nextBrick.x = 0;                 //초기화 시킴 
+	game->nextBrick.y = 0;                 
 } // }}}
 
 TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	TetrisGame *game = malloc(sizeof(TetrisGame));
-	dieIfOutOfMemory(game);
-	game->width = width;
+	Excess_Memory(game);
+	game->width = width;                      //게임판의 너비,높이,사이즈,일시정지,점수 표시를 위해 포인터값을 지정
 	game->height = height;
 	game->size = width * height;
 	game->board = calloc(game->size, sizeof(char));
-	dieIfOutOfMemory(game->board);
+	Excess_Memory(game->board);
 	game->isRunning = 1;
 	game->isPaused  = 0;
 	game->sleepUsec = 500000;
@@ -84,14 +84,14 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	term.c_cc[VMIN] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	// init signals for timer and errors
-	struct sigaction signalAction;
+	struct sigaction signalAction;                     //sigaction -> 어떤 신호가 생길 경우 그에 따라 행동을 할 수 있도록 정의해주는 함수.
 	sigemptyset(&signalAction.sa_mask);
 	signalAction.sa_handler = signalHandler;
 	signalAction.sa_flags = 0;
 	sigaction(SIGINT,  &signalAction, NULL);
-	sigaction(SIGTERM, &signalAction, NULL);
+	sigaction(SIGTERM, &signalAction, NULL);           
 	sigaction(SIGSEGV, &signalAction, NULL);
-	sigaction(SIGALRM, &signalAction, NULL);
+	sigaction(SIGALRM, &signalAction, NULL);          
 	// init timer
 	game->timer.it_value.tv_usec = game->sleepUsec;
 	setitimer(ITIMER_REAL, &game->timer, NULL);
@@ -136,7 +136,7 @@ static char brickCollides(TetrisGame *game) { // {{{
 
 static void landBrick(TetrisGame *game) { // {{{
 	if (game->brick.type < 0) return;
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++){
 		int p = bricks[game->brick.type][game->brick.rotation][i];
 		int x = p % 4 + game->brick.x;
 		int y = p / 4 + game->brick.y;
@@ -234,4 +234,3 @@ void processInputs(TetrisGame *game) { // {{{
 		}
 	} while ((c = getchar()) != -1);
 } // }}}
-
