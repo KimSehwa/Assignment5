@@ -25,20 +25,20 @@
 
 #include "tetris.h"
 
-TetrisGame *game;
+TetrisGame *game;                //포인터 변수 선언
 
 void printBoard(TetrisGame *game) { // {{{
-	int width = game->width;
-	char line[width * 2 + 1];
-	memset(line, '-', width * 2);
+	int width = game->width;           //구조체 포인터 이름 : game, 멤버 이름 : width
+	char line[width * 2 + 1];          //너비*2+1만금의 배열 line 생성
+	memset(line, '-', width * 2);      //line부터 메모리에 '-'를 width*2의 메모리 크기에 할당
 	line[width * 2] = 0;
 	printf("\e[%iA", game->height + 2); // move to above the board
 	printf("/%s+--------\\\n", line);
-	int foo = 0;
-	for (int y = 0; y < game->height; y++) {
+	int foo = 0;                        //정수형 foo를 0으로 초기화
+	for (int y = 0; y < game->height; y++) {         //y가 height값 때까지
 		printf("|");
-		for (int x = 0; x < game->width; x++) {
-			char c = game->board[x + y * game->width];
+		for (int x = 0; x < game->width; x++) {          //x가 width값 때까지
+			char c = game->board[x + y * game->width];       //벽돌의 색을 설정함
 			if (c == 0) // empty? try falling brick
 				c = colorOfBrickAt(&game->brick, x, y);
 			printf("\e[3%i;4%im  ", c, c);
@@ -61,7 +61,7 @@ void printBoard(TetrisGame *game) { // {{{
 	printf("\\%s/\n", line);
 } // }}}
 
-void welcome() { // {{{
+void welcome() { // {{{                   //저작권과 작동방법 명시
 	printf("tetris-term  Copyright (C) 2014  Gjum\n");
 	printf("\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
@@ -87,8 +87,8 @@ void welcome() { // {{{
 	printf("\n");
 } // }}}
 
-void signalHandler(int signal) { // {{{
-	switch(signal) {
+void signalHandler(int signal) { // {{{      //signal을 입력받아서 SIGSEGV이면 isRunning이 0으로 초기화
+	switch(signal) {                         //SIGALRM이면 timer 설정
 		case SIGINT:
 		case SIGTERM:
 		case SIGSEGV:
