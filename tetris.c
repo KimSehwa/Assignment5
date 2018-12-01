@@ -73,8 +73,8 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	game->isPaused  = 0;
 	game->sleepUsec = 500000;
 	game->score = 0;
-	nextBrick(game); // fill preview
-	nextBrick(game); // put into game
+	nextBrick(game); // 다음 블럭을 채운다.
+	nextBrick(game); // 다음 블럭을 게임 안에 채운다.
 	// init terminal for non-blocking and no-echo getchar()
 	struct termios term;
 	tcgetattr(STDIN_FILENO, &game->termOrig);
@@ -83,7 +83,7 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	term.c_cc[VTIME] = 0;
 	term.c_cc[VMIN] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	// init signals for timer and errors
+	// timer 와 error에 대한 signal 들을 초기화한다.
 	struct sigaction signalAction;                     //sigaction -> 어떤 신호가 생길 경우 그에 따라 행동을 할 수 있도록 정의해주는 함수.
 	sigemptyset(&signalAction.sa_mask);
 	signalAction.sa_handler = signalHandler;
@@ -92,7 +92,7 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	sigaction(SIGTERM, &signalAction, NULL);           
 	sigaction(SIGSEGV, &signalAction, NULL);
 	sigaction(SIGALRM, &signalAction, NULL);          
-	// init timer
+	// timer을 초기화한다.
 	game->timer.it_value.tv_usec = game->sleepUsec;
 	setitimer(ITIMER_REAL, &game->timer, NULL);
 	return game;
