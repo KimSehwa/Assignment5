@@ -218,17 +218,17 @@ void processInputs(TetrisGame *game) { // {{{
 	char c = getchar();
 	do {
 		switch (c) {
-			case ' ': moveBrick(game, 0, 1); break;
+			case '': moveBrick(game, 0, 1); break;
 			//case '?': dropBrick(game); break;
 			case 'p': pauseUnpause(game); break;
 			case 'q': game->isRunning = 0; break;
 			case 27: // ESC
 				getchar();
 				switch (getchar()) {
-					case 'A': rotateBrick(game,  1);  break; // up
-					case 'B': rotateBrick(game, -1);  break; // down
-					case 'C': moveBrick(game,  1, 0); break; // right
-					case 'D': moveBrick(game, -1, 0); break; // left
+					case '72': rotateBrick(game,  1);  break; // up
+					case '80': rotateBrick(game, -1);  break; // down
+					case '77': moveBrick(game,  1, 0); break; // right
+					case '75': moveBrick(game, -1, 0); break; // left
 				}
 				break;
 		}
