@@ -25,20 +25,20 @@
 
 #include "tetris.h"
 
-TetrisGame *game;                //������ ���� ����
+TetrisGame *game;                //define pointer variable
 
 void printBoard(TetrisGame *game) { // {{{
-	int width = game->width;           //����ü ������ �̸� : game, ��� �̸� : width
-	char line[width * 2 + 1];          //�ʺ�*2+1������ �迭 line ����
-	memset(line, '-', width * 2);      //line���� �޸𸮿� '-'�� width*2�� �޸� ũ�⿡ �Ҵ�
+	int width = game->width;           //Name of structure pointer : game, Name of members : width
+	char line[width * 2 + 1];          //Form arrangement 'line' as much as width*2+1
+	memset(line, '-', width * 2);      //Allot '-' from memory of width*2 to line
 	line[width * 2] = 0;
 	printf("\e[%iA", game->height + 2); // move to above the board
 	printf("/%s+--------\\\n", line);
-	int foo = 0;                        //������ foo�� 0���� �ʱ�ȭ
-	for (int y = 0; y < game->height; y++) {         //y�� height�� ������
+	int recur = 0;                        //Initialize integer type of 'recur' to 0
+	for (int y = 0; y < game->height; y++) {         //u until height
 		printf("|");
-		for (int x = 0; x < game->width; x++) {          //x�� width�� ������
-			char c = game->board[x + y * game->width];       //������ ���� ������
+		for (int x = 0; x < game->width; x++) {          //x until width
+			char c = game->board[x + y * game->width];       //set-up color of bricks
 			if (c == 0) // empty? try falling brick
 				c = colorOfBrickAt(&game->brick, x, y);
 			printf("\e[3%i;4%im  ", c, c);
@@ -53,7 +53,7 @@ void printBoard(TetrisGame *game) { // {{{
 					char c = colorOfBrickAt(&game->nextBrick, x, y);
 					printf("\e[3%i;4%im  ", c, c);
 				}
-				foo++;
+				recur++;
 			}
 			printf("\e[39;49m|\n");
 		}
@@ -61,7 +61,7 @@ void printBoard(TetrisGame *game) { // {{{
 	printf("\\%s/\n", line);
 } // }}}
 
-void welcome() { // {{{                   //���۱ǰ� �۵���� ���
+void welcome() { // {{{                   //specify copyright and how it works
 	printf("tetris-term  Copyright (C) 2014  Gjum\n");
 	printf("\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
@@ -87,8 +87,8 @@ void welcome() { // {{{                   //���۱ǰ� �۵���� �
 	printf("\n");
 } // }}}
 
-void signalHandler(int signal) { // {{{      //signal�� �Է¹޾Ƽ� SIGSEGV�̸� isRunning�� 0���� �ʱ�ȭ
-	switch(signal) {                         //SIGALRM�̸� timer ����
+void signalHandler(int signal) { // {{{      //Initialize 'isRunning' to 0 if inputted 'signal' is SIGSEGV
+	switch(signal) {                         //set-up timer if SIGALRM
 		case SIGINT:
 		case SIGTERM:
 		case SIGSEGV:
