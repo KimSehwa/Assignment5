@@ -53,7 +53,7 @@ static void Excess_Memory(void *pointer) { // {{{
 	}
 } // }}}
 
-int my_getch(void){
+int my_getch(void){                          //터미널 상에서 값을 입력받기 위한 함수
   struct termios oldattr, newattr;
   unsigned char ch;
   int retcode;
@@ -238,8 +238,7 @@ static void rotateBrick(TetrisGame *game, char direction) { // {{{
 } // }}}
 
 void processInputs(TetrisGame *game) { // {{{
-	char c = -1;
-	c=my_getch();
+	char c = my_getch();
 	do{
 		switch (c) {
 			case ' ': moveBrick(game, 0, 1); break;
