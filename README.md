@@ -13,7 +13,7 @@ Usage
 ### Installation:
 설치 방법
 
-`git clone https://github.com/Gjum/tetris-term.git && make -C tetris-term`
+`git clone https://github.com/KimSehwa/Assignment5.git && make -C tetris-term`
 
 ### Controls:
 조작법
@@ -24,7 +24,10 @@ Usage
  - `Down`  rotate brick counter-clockwise
  - `Space` move brick down by one step
  - `p`     pause game
- - `q`     quit game  
+ - `q`     quit game 
+
+
+
 
  - `Left`  브릭 왼쪽으로 움직이기
  - `Right` 브릭 오른쪽으로 움직이기
@@ -40,7 +43,11 @@ Features
 
 - 7 different colors
 - no fancy dependencies
-- lightweight on your resources  
+- lightweight on your resources
+
+
+
+
 
 - 7가지 색
 - 종속성 없음
@@ -60,6 +67,9 @@ Features
   - drop brick
   - restart/new game
 - config file for controls, colors, default size, speed  
+
+
+
 
 - 속도 변경:
   - 블럭의 더 빠른 속도
