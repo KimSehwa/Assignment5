@@ -13,7 +13,7 @@ Usage
 ### Installation:
 설치 방법
 
-`git clone https://github.com/KimSehwa/Assignment5.git && make -C tetris-term`
+`git clone https://github.com/KimSehwa/Assignment5.git && make -C Assignment5`
 
 ### Controls:
 조작법
@@ -29,7 +29,7 @@ Usage
  - `A`  브릭 왼쪽으로 움직이기
  - `D` 브릭 오른쪽으로 움직이기
  - `W`    브릭 시계방향으로 회전
- - `A`  브릭 반시계방향으로 회전
+ - `S`  브릭 반시계방향으로 회전
  - `Space` 브릭 아래로 내리기
  - `p`     일시정지
  - `q`     게임 중지

@@ -25,20 +25,20 @@
 
 #include "tetris.h"
 
-TetrisGame *game;                //Æ÷ÀÎÅÍ º¯¼ö ¼±¾ð
+TetrisGame *game;                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 void printBoard(TetrisGame *game) { // {{{
-	int width = game->width;           //±¸Á¶Ã¼ Æ÷ÀÎÅÍ ÀÌ¸§ : game, ¸â¹ö ÀÌ¸§ : width
-	char line[width * 2 + 1];          //³Êºñ*2+1¸¸±ÝÀÇ ¹è¿­ line »ý¼º
-	memset(line, '-', width * 2);      //lineºÎÅÍ ¸Þ¸ð¸®¿¡ '-'¸¦ width*2ÀÇ ¸Þ¸ð¸® Å©±â¿¡ ÇÒ´ç
+	int width = game->width;           //ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : game, ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ : width
+	char line[width * 2 + 1];          //ï¿½Êºï¿½*2+1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ line ï¿½ï¿½ï¿½ï¿½
+	memset(line, '-', width * 2);      //lineï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ð¸®¿ï¿½ '-'ï¿½ï¿½ width*2ï¿½ï¿½ ï¿½Þ¸ï¿½ Å©ï¿½â¿¡ ï¿½Ò´ï¿½
 	line[width * 2] = 0;
 	printf("\e[%iA", game->height + 2); // move to above the board
 	printf("/%s+--------\\\n", line);
-	int foo = 0;                        //Á¤¼öÇü foo¸¦ 0À¸·Î ÃÊ±âÈ­
-	for (int y = 0; y < game->height; y++) {         //y°¡ height°ª ¶§±îÁö
+	int foo = 0;                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ fooï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+	for (int y = 0; y < game->height; y++) {         //yï¿½ï¿½ heightï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		printf("|");
-		for (int x = 0; x < game->width; x++) {          //x°¡ width°ª ¶§±îÁö
-			char c = game->board[x + y * game->width];       //º®µ¹ÀÇ »öÀ» ¼³Á¤ÇÔ
+		for (int x = 0; x < game->width; x++) {          //xï¿½ï¿½ widthï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			char c = game->board[x + y * game->width];       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (c == 0) // empty? try falling brick
 				c = colorOfBrickAt(&game->brick, x, y);
 			printf("\e[3%i;4%im  ", c, c);
@@ -61,7 +61,7 @@ void printBoard(TetrisGame *game) { // {{{
 	printf("\\%s/\n", line);
 } // }}}
 
-void welcome() { // {{{                   //ÀúÀÛ±Ç°ú ÀÛµ¿¹æ¹ý ¸í½Ã
+void welcome() { // {{{                   //ï¿½ï¿½ï¿½Û±Ç°ï¿½ ï¿½Ûµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	printf("tetris-term  Copyright (C) 2014  Gjum\n");
 	printf("\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
@@ -76,10 +76,10 @@ void welcome() { // {{{                   //ÀúÀÛ±Ç°ú ÀÛµ¿¹æ¹ý ¸í½Ã
 	printf("\e[30;40m  \e[36;46m  \e[36;46m  \e[34;44m  \e[34;44m  \e[34;44m  \e[32;42m  \e[32;42m  \e[31;41m  \e[30;40m  \e[35;45m  \e[35;45m  \e[35;45m  \e[35;45m  \e[39;49m\n");
 	printf("\n");
 	printf("\e[1mControls:\e[0m\n");
-	printf("<Left>  move brick left\n");
-	printf("<Right> move brick right\n");
-	printf("<Up>    rotate brick clockwise\n");
-	printf("<Down>  rotate brick counter-clockwise\n");
+	printf("<a>  move brick left\n");
+	printf("<d> move brick right\n");
+	printf("<w>    rotate brick clockwise\n");
+	printf("<s>  rotate brick counter-clockwise\n");
 	//printf("<?????> drop brick down\n");
 	printf("<Space> move brick down by one step\n");
 	printf("<p>     pause game\n");
@@ -87,8 +87,8 @@ void welcome() { // {{{                   //ÀúÀÛ±Ç°ú ÀÛµ¿¹æ¹ý ¸í½Ã
 	printf("\n");
 } // }}}
 
-void signalHandler(int signal) { // {{{      //signalÀ» ÀÔ·Â¹Þ¾Æ¼­ SIGSEGVÀÌ¸é isRunningÀÌ 0À¸·Î ÃÊ±âÈ­
-	switch(signal) {                         //SIGALRMÀÌ¸é timer ¼³Á¤
+void signalHandler(int signal) { // {{{      //signalï¿½ï¿½ ï¿½Ô·Â¹Þ¾Æ¼ï¿½ SIGSEGVï¿½Ì¸ï¿½ isRunningï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+	switch(signal) {                         //SIGALRMï¿½Ì¸ï¿½ timer ï¿½ï¿½ï¿½ï¿½
 		case SIGINT:
 		case SIGTERM:
 		case SIGSEGV:
