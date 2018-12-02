@@ -77,7 +77,7 @@ static void nextBrick(TetrisGame *game) { // {{{
 	game->nextBrick.y = 0;                 
 } // }}}
 
-TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
+TetrisGame *newTetrisGame(unsigned int width, unsigned int height, int speed) { // {{{
 	TetrisGame *game = malloc(sizeof(TetrisGame));
 	Excess_Memory(game);
 	game->width = width;                      //게임판의 너비,높이,사이즈,일시정지,점수 표시를 위해 포인터값을 지정
@@ -87,7 +87,16 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	Excess_Memory(game->board);
 	game->isRunning = 1;
 	game->isPaused  = 0;
-	game->sleepUsec = 500000;
+	if(speed==1){
+		game->sleepUsec = 100000;
+	}
+	else if(speed==2){
+		game->sleepUsec = 500000;
+	}
+	else{
+		game->sleepUsec = 800000;
+	}
+	printf("%d",game->sleepUsec);
 	game->score = 0;
 	nextBrick(game); // 다음 블럭을 채운다.
 	nextBrick(game); // 다음 블럭을 게임 안에 채운다.
