@@ -53,6 +53,18 @@ static void Excess_Memory(void *pointer) { // {{{
 	}
 } // }}}
 
+int my_getch(void){
+  struct termios oldattr, newattr;
+  unsigned char ch;
+  int retcode;
+  tcgetattr(STDIN_FILENO, &oldattr);
+  newattr=oldattr;
+  newattr.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newattr);
+  retcode=read(STDIN_FILENO, &ch, 1);
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
+  return retcode<=0? EOF: (int)ch;
+}
 static void nextBrick(TetrisGame *game) { // {{{
 	game->brick = game->nextBrick;
 	game->brick.x = game->width/2 - 2;             //x값의 초기값을 지정.                        //초기위치
@@ -226,22 +238,17 @@ static void rotateBrick(TetrisGame *game, char direction) { // {{{
 } // }}}
 
 void processInputs(TetrisGame *game) { // {{{
-	char c = getchar();
-	do {
+	char c = -1;
+	c=my_getch();
+	do{
 		switch (c) {
 			case ' ': moveBrick(game, 0, 1); break;
-			//case '?': dropBrick(game); break;
 			case 'p': pauseUnpause(game); break;
 			case 'q': game->isRunning = 0; break;
-			case 27: // ESC
-				getchar();
-				switch (getchar()) {
-					case 'w': rotateBrick(game,  1);  break; // up
-					case 's': rotateBrick(game, -1);  break; // down
-					case 'd': moveBrick(game,  1, 0); break; // right
-					case 'a': moveBrick(game, -1, 0); break; // left
-				}
-				break;
+			case 'w': rotateBrick(game,  1);  break; // up
+			case 's': rotateBrick(game, -1);  break; // down
+			case 'd': moveBrick(game,  1, 0); break; // right
+			case 'a': moveBrick(game, -1, 0); break; // left
 		}
 	} while ((c = getchar()) != -1);
 } // }}}
