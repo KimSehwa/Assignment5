@@ -58,6 +58,7 @@ static void nextBrick(TetrisGame *game) { // {{{
 	game->nextBrick.type = rand() % numBrickTypes;     
 	game->nextBrick.rotation = rand() % 4;      
 	game->nextBrick.color = game->brick.color % 7 + 1; // (color-1 + 1) % 7 + 1, range is 1..7
+	// 블록의 색 1~7(int color)  (1:BLUE, 2:GREEN, 3:JADE, 4:RED, 5:PURPLE, 6:YELLOW, 7:WHITE)
 	game->nextBrick.x = 0;                 //초기화 시킴 
 	game->nextBrick.y = 0;                 
 } // }}}
