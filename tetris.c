@@ -26,7 +26,8 @@
 
 // {{{ bricks
 #define numBrickTypes 7
-// positions of the filled cells         
+// positions of the filled cells     
+//4*4 사각형    
 //  0  1  2  3
 //  4  5  6  7
 //  8  9 10 11
@@ -98,74 +99,81 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	return game;
 } // }}}
 
+/*게임 종료 시키는 함수*/
 void destroyTetrisGame(TetrisGame *game) { // {{{
-	if (game == NULL) return;
-	tcsetattr(STDIN_FILENO, TCSANOW, &game->termOrig);
-	printf("Your score: %i\n", game->score);
-	printf("Game over.\n");
-	free(game->board);
-	free(game);
+	if (game == NULL) return;                             //game의 생성 오류 시 종료
+	tcsetattr(STDIN_FILENO, TCSANOW, &game->termOrig);    //터미널 출력를 갱신
+	printf("Your score: %i\n", game->score);              //점수 출력
+	printf("Game over.\n");                               //"Game over" 출력
+	free(game->board);                                    //게임 패턴값의 메모리 해제
+	free(game);                                           //게임 메모리 해제  
 } // }}}
 
+/*입력한 x, y 좌표의 색을 반환*/
+/*반환값 : 브릭의 색 or 0*/
 unsigned char colorOfBrickAt(FallingBrick *brick, int x, int y) { // {{{
-	if (brick->type < 0) return 0;
-	int v = y - brick->y;
-	if (v < 0 || v >= 4) return 0;
+	if (brick->type < 0) return 0;                        //brick의 생성 오류 시 종료
+	int v = y - brick->y; 
+	if (v < 0 || v >= 4) return 0;                        //y좌표 값이 브릭과 만나지 않을 경우 0 반환
 	int u = x - brick->x;
-	if (u < 0 || u >= 4) return 0;
-	for (int i = 0; i < 4; i++) {
+	if (u < 0 || u >= 4) return 0;                        //x좌표 값이 브릭과 만나지 않을 경우 0 반환
+	for (int i = 0; i < 4; i++) {                         //x, y 좌표를 기준 4*4 크기의 주변 좌표와 브릭이 만나는지 확인 
 		if (u + 4*v == bricks[brick->type][brick->rotation][i])
-			return brick->color;
+			return brick->color;                          //만난다면 브릭의 색을 반환
 	}
-	return 0;
+	return 0;                                             //만나지 않으면 0을 반환
 } // }}}
 
+/*생성된 브릭이 게임의 경계선 밖으로 나가는 지 확인 */
+/*반환값 : 1-경계선 넘어감.  0-오류 없음*/
 static char brickCollides(TetrisGame *game) { // {{{
-	for (int i = 0; i < 4; i++) {
-		int p = bricks[game->brick.type][game->brick.rotation][i];
-		int x = p % 4 + game->brick.x;
-		if (x < 0 || x >= game->width) return 1;
-		int y = p / 4 + game->brick.y;
-		if (y >= game->height) return 1;
-		p = x + y * game->width;
-		if (p >= 0 && p < game->size && game->board[p] != 0)
+	for (int i = 0; i < 4; i++) {                      
+		int p = bricks[game->brick.type][game->brick.rotation][i];   //4*4크기의 위에서 확인함
+		int x = p % 4 + game->brick.x;                    //(4*4에서의 상대적 위치)+(4*4의 위치)=해당 칸의 실제 x좌표
+		if (x < 0 || x >= game->width) return 1;          //x좌표가 경계선을 넘기면 1 반환
+		int y = p / 4 + game->brick.y;                    //(4*4에서의 상대적 위치)+(4*4의 위치)=해당 칸의 실제 y좌표
+		if (y >= game->height) return 1;                  //y좌표가 경계선을 넘기면 1 반환
+		p = x + y * game->width;       
+		if (p >= 0 && p < game->size && game->board[p] != 0)    //블럭이 게임의 경계선을 넘어가면 1 반환.
 			return 1;
 	}
 	return 0;
 } // }}}
 
+/*브릭을 터미널 상에 생성*/
 static void landBrick(TetrisGame *game) { // {{{
-	if (game->brick.type < 0) return;
+	if (game->brick.type < 0) return;                     //brick의 생성 오류 시 종료
 	for (int i = 0; i < 4; i++){
-		int p = bricks[game->brick.type][game->brick.rotation][i];
-		int x = p % 4 + game->brick.x;
-		int y = p / 4 + game->brick.y;
+		int p = bricks[game->brick.type][game->brick.rotation][i];  //4*4 브릭 중 한 블럭
+		int x = p % 4 + game->brick.x;                    //블럭의 실제 x좌표
+		int y = p / 4 + game->brick.y;                    //블럭의 실제 y좌표
 		p = x + y * game->width;
-		game->board[p] = game->brick.color;
+		game->board[p] = game->brick.color;               //좌표에 해당하는 칸을 브릭의 색으로 칠함
 	}
 } // }}}
 
+/*완료된 line 삭제*/
 static void clearFullRows(TetrisGame *game) { // {{{
 	int width = game->width;
 	int rowsCleared = 0;
-	for (int y = game->brick.y; y < game->brick.y + 4; y++) {
+	for (int y = game->brick.y; y < game->brick.y + 4; y++) {  //y좌표 한 line씩 확인
 		char clearRow = 1;
 		for (int x = 0; x < width; x++) {
 			if (0 == game->board[x + y * width]) {
 				clearRow = 0;
 				break;
 			}
-		}
-		if (clearRow) {
+		}                                                  //해당하는 line을 확인하고 빈칸이 있으면 loop 탈출 및 jump
+		if (clearRow) {                                    //line에 빈칸이 없는 경우
 			for (int d = y; d > 0; d--)
 				memcpy(game->board + width*d, game->board + width*(d-1), width);
-			bzero(game->board, width); // delete first line
+			bzero(game->board, width); // delete first line. 해당 line을 지움
 			y--;
-			rowsCleared++;
+			rowsCleared++;                            
 		}
 	}
-	if (rowsCleared > 0) {
-		// apply score: 0, 1, 3, 5, 8
+	if (rowsCleared > 0) { 
+		// apply score: 0, 1, 3, 5, 8. 점수 적용
 		game->score += rowsCleared * 2 - 1;
 		if (rowsCleared >= 4) game->score++;
 	}
