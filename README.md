@@ -41,12 +41,9 @@ Features
 - 7 different colors
 - no fancy dependencies
 - lightweight on your resources 
+- can set difficaulty(1.Difficaulty, 2.Normal, 3.Easy)
 ###
-- 난이도 설정가능
-#1.Difficualt
-#2.Normal
-#3.Easy
-####
+- 난이도 설정(1.Difficaulty, 2.Normal, 3.Easy)
 - 7가지 색
 - 종속성 없음
 - 가벼운 프로그램
@@ -54,9 +51,6 @@ Features
 ### Roadmap:
 추후 계획
 
-- changing speed:
-  - getting faster with every block or line
-  - via argument
 - more arguments:
   - disable color
   - change size
