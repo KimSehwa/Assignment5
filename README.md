@@ -24,8 +24,7 @@ Usage
  - `Down`  rotate brick counter-clockwise
  - `Space` move brick down by one step
  - `p`     pause game
- - `q`     quit game
-
+ - `q`     quit game  
 
  - `Left`  브릭 왼쪽으로 움직이기
  - `Right` 브릭 오른쪽으로 움직이기
@@ -41,8 +40,7 @@ Features
 
 - 7 different colors
 - no fancy dependencies
-- lightweight on your resources
-
+- lightweight on your resources  
 
 - 7가지 색
 - 종속성 없음
@@ -61,8 +59,7 @@ Features
   - move brick to left/right border
   - drop brick
   - restart/new game
-- config file for controls, colors, default size, speed
-
+- config file for controls, colors, default size, speed  
 
 - 속도 변경:
   - 블럭의 더 빠른 속도
