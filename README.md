@@ -42,10 +42,10 @@ Features
 - no fancy dependencies
 - lightweight on your resources 
 ###
--난이도 설정가능
--1.Difficualt
--2.Normal
--3.Easy
+- 난이도 설정가능
+#1.Difficualt
+#2.Normal
+#3.Easy
 ####
 - 7가지 색
 - 종속성 없음
