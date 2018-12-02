@@ -18,18 +18,18 @@ Usage
 ### Controls:
 조작법
 
- - `Left`  move brick left
- - `Right` move brick right
- - `Up`    rotate brick clockwise
- - `Down`  rotate brick counter-clockwise
+ - `A`  move brick left
+ - `D` move brick right
+ - `W`    rotate brick clockwise
+ - `S`  rotate brick counter-clockwise
  - `Space` move brick down by one step
  - `p`     pause game
  - `q`     quit game  
 ###
- - `Left`  브릭 왼쪽으로 움직이기
- - `Right` 브릭 오른쪽으로 움직이기
- - `Up`    브릭 시계방향으로 회전
- - `Down`  브릭 반시계방향으로 회전
+ - `A`  브릭 왼쪽으로 움직이기
+ - `D` 브릭 오른쪽으로 움직이기
+ - `W`    브릭 시계방향으로 회전
+ - `A`  브릭 반시계방향으로 회전
  - `Space` 브릭 아래로 내리기
  - `p`     일시정지
  - `q`     게임 중지
