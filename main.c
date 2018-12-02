@@ -61,7 +61,7 @@ void printBoard(TetrisGame *game) { // {{{
 	printf("\\%s/\n", line);
 } // }}}
 
-void welcome() { // {{{                   //specify copyright and how it works
+void welcome() { // {{{                   //specify copyright and how it works.
 	printf("tetris-term  Copyright (C) 2014  Gjum\n");
 	printf("\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
