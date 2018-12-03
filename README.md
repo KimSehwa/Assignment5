@@ -43,10 +43,10 @@ Features
 - lightweight on your resources 
 - can set difficaulty(1.Difficaulty, 2.Normal, 3.Easy)
 ###
-- 난이도 설정(1.Difficaulty, 2.Normal, 3.Easy)
 - 7가지 색
 - 종속성 없음
 - 가벼운 프로그램
+- 난이도 설정(1.Difficaulty, 2.Normal, 3.Easy)
 
 ### Roadmap:
 추후 계획
@@ -60,9 +60,6 @@ Features
   - restart/new game
 - config file for controls, colors, default size, speed  
 ###
-- 속도 변경:
-  - 블럭의 더 빠른 속도
-  - 인자를 통해 제어 가능
 - 다양한 선택 옵션:
   - 색 비활성화
   - 크기 변경
